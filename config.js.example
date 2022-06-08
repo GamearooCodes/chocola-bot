@@ -1,0 +1,6 @@
+exports.token = "bot token here"
+exports.apikey = "api key here"
+exports.version = "1.0.0 - dev"
+exports.mongourl = "mongo url"
+exports.apiversion = "v10"
+exports.beta = true;

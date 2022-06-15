@@ -13,7 +13,7 @@ module.exports = (client) => {
 
     if (beta) commands = client.guilds.cache.get('936050113602793483').commands;
 
-
+    
 
     for (let file of commands2) {
         let command = require(`../commands/${file}`);

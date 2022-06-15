@@ -1,13 +1,22 @@
 const { MessageEmbed } = require("discord.js");
-const { fun } = require("ram-api.js")
-const { apiversion, apikey } = require("../../config")
+const { APiClient } = require("ram-api.js");
+
+
 
 module.exports = {
     name: 'bday',
     description: 'get a happy bday',
     command: 'false',
-    async msg(client, message, args, extras) {
-        fun.birthday(apiversion, apikey, "english").then(data => {
+    /**
+     * 
+     * @param {*} client 
+     * @param {*} message 
+     * @param {*} args 
+     * @param {*} extras 
+     * @param {APiClient} apiclient
+     */
+    async msg(client, message, args, extras, apiclient) {
+        apiclient.bday("english").then(data => {
 
             const embed = new MessageEmbed();
             embed.setDescription(data.text);

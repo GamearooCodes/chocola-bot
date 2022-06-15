@@ -15,10 +15,9 @@
     "fs": "^0.0.1-security",
     "moment": "^2.29.3",
     "mongoose": "^5.12.2",
-    "ram-api.js": "^8.0.2",
+    "ram-api.js": "^9.0.0",
     "systeminformation": "^5.11.16"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Gamearoos-development/chocola-bot.git"

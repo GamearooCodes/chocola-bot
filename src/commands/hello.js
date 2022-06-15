@@ -1,5 +1,5 @@
 const { Client, CommandInteraction, Permissions } = require("discord.js");
-const { fun } = require("ram-api.js");
+const { fun, APiClient } = require("ram-api.js");
 const { apiversion, apikey } = require("../../config");
 
 module.exports = {
@@ -30,20 +30,13 @@ module.exports = {
      * @param {Client} client 
      * @param {CommandInteraction} interaction 
      * @param {*} extras 
+     * @param {APiClient} apiclient
      */
-    async slash(client, interaction, extras) {
-        let lang = interaction.options.getString('language') || 'english';
 
-        console.log(lang)
-
-        fun.hello(apiversion, apikey, lang).then(data => {
-            interaction.reply(data.text);
-        })
-    },
-    async msg(client, message, args, extras) {
+    async msg(client, message, args, extras, apiclient) {
         let lang = args[1] || 'english';
 
-        fun.hello(apiversion, apikey, lang).then(data => {
+        apiclient.hello("english").then(data => {
             message.reply(data.text)
         })
 

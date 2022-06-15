@@ -1,5 +1,5 @@
 const { MessageEmbed, Client, Message, CommandInteraction } = require("discord.js")
-const { fun } = require("ram-api.js")
+const { fun, APiClient } = require("ram-api.js")
 const { apiversion, apikey } = require("../../config")
 
 module.exports = {
@@ -14,40 +14,45 @@ module.exports = {
         }
     ],
     description: 'hug a member',
+
+
+
     /**
      * 
      * @param {Client} client 
      * @param {Message} message 
      * @param {*} args 
-     * @param {*} extras 
-     */
-
-    async msg(client, message, args, extras) {
-        let member = message.mentions.members.first() || message.member
-        fun.hug(apiversion, apikey).then(data => {
-            let embed = new MessageEmbed();
-
-            embed.setDescription(`${message.author} hug ${member}`);
-            embed.setImage(data.url);
-
-            message.channel.send({ embeds: [embed] })
-        })
-    },
-    /**
-     * 
-     * @param {Client} client 
      * @param {CommandInteraction} interaction 
      * @param {*} extras 
+     * @param {*} type 
+     * @param {APiClient} apiclient
      */
-    async slash(client, interaction, extras) {
-        let member = interaction.options.getMember('user')
-        fun.hug(apiversion, apikey).then(data => {
-            let embed = new MessageEmbed();
+    async both(client, message, args, interaction, extras, type, apiclient) {
+        let member;
+        let asker;
 
-            embed.setDescription(`${interaction.member} hug ${member}`);
-            embed.setImage(data.url);
+        if (type === "int") {
+            member = interaction.options.getMember('user');
+            asker = interaction.member
+        }
+        if (type === "msg") {
+            member = message.mentions.members.first() || message.guild.members.fetch(args[1]) || message.member;
 
-            interaction.reply({ embeds: [embed] })
+            asker = message.author
+        }
+
+
+        let response = interaction;
+
+        if (type === "msg") response = message;
+
+        if (!member) return response.reply("Member not found!");
+
+        apiclient.hug().then(data => {
+            let embed = new MessageEmbed().setDescription(`${asker} Hugs ${member}`).setImage(data.url);
+
+            response.reply({ embeds: [embed] })
         })
+
     }
 }

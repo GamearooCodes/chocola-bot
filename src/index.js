@@ -1,5 +1,5 @@
 const { Client, Intents, Collection } = require("discord.js");
-const ramapi = require('ram-api.js');
+const { APiClient } = require('ram-api.js');
 const { apiversion, apikey, token } = require("../config");
 const client = new Client({
     intents: [
@@ -28,23 +28,27 @@ const client = new Client({
 client.commands = new Collection();
 client.events = new Collection();
 
+let apiclient = new APiClient(apikey, apiversion);
+
+
+
 client.on('ready', async () => {
     await ["event", 'command'].forEach(item => {
         require(`./utils/${item}`)(client);
     })
 
 
-    client.events.get('ready').run();
+    client.events.get('ready').run(apiclient);
 
 })
 
 client.on(`interactionCreate`, (interaction) => {
     client.pingdate = Date.now();
-    client.events.get('int').run(client, interaction);
+    client.events.get('int').run(client, interaction, apiclient);
 })
 client.on(`messageCreate`, async message => {
     client.pingdate = Date.now();
-    client.events.get('message').run(message, client);
+    client.events.get('message').run(message, client, apiclient);
 })
 
 client.login(token)

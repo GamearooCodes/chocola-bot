@@ -8,7 +8,7 @@ module.exports = {
      * @param {Client} client 
      * @param {CommandInteraction} interaction 
      */
-    async run(client, interaction) {
+    async run(client, interaction, apiclient) {
         const { commandName } = interaction;
 
         if (!interaction.isCommand()) return;
@@ -34,7 +34,7 @@ module.exports = {
         if (!interaction.member.permissions.has(permcheck)) return interaction.reply({ content: `Missing ${permcheck.toArray().join(", ")}`, ephemeral: true });
 
         let extras = {};
-        if (command.command === "both") command.both(client, null, null, interaction, extras, "int");
-        else command.slash(client, interaction, extras);
+        if (command.command === "both") command.both(client, null, null, interaction, extras, "int", apiclient);
+        else command.slash(client, interaction, extras, apiclient);
     }
 }

@@ -1,11 +1,15 @@
-const { info } = require("ram-api.js");
-const { apiversion } = require("../../config");
+const { APiClient } = require("ram-api.js");
+
 
 module.exports = {
     name: 'ready',
-    async run() {
+    /**
+     * 
+     * @param {APiClient} apiclient 
+     */
+    async run(apiclient) {
         console.log('ready  ')
 
-        info.version_check(apiversion);
+        apiclient.version_check();
     }
 }

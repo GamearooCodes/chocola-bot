@@ -1,6 +1,6 @@
 const { Permissions, Client, CommandInteraction, MessageEmbed } = require("discord.js");
-const { fun, images } = require("ram-api.js");
-const { apiversion, apikey } = require("../../config");
+const { APiClient } = require("ram-api.js");
+
 
 module.exports = {
     name: 'fun',
@@ -29,13 +29,14 @@ module.exports = {
      * @param {Client} client 
      * @param {CommandInteraction} interaction 
      * @param {*} extras 
+     * @param {APiClient} apiclient
      */
-    async slash(client, interaction, extras) {
+    async slash(client, interaction, extras, apiclient) {
         let cmd = interaction.options.getSubcommand();
 
         switch (cmd) {
             case 'bday':
-                fun.birthday(apiversion, apikey, 'english').then(data => {
+                apiclient.bday("english").then(data => {
                     const embed = new MessageEmbed();
                     embed.setDescription(data.text);
                     embed.setImage(data.url);
@@ -45,40 +46,19 @@ module.exports = {
                 })
                 break;
             case "nekoparaimg":
-                images.nekopara(apiversion, apikey).then(data => {
+                apiclient.nekopara().then(data => {
                     let embed2 = new MessageEmbed().setImage(data.url).setColor("RANDOM");
 
                     interaction.reply({ embeds: [embed2] })
                 })
                 break;
             case "hello": {
-                fun.hello(apiversion, apikey, "english").then(data => {
+                apiclient.hello("english").then(data => {
                     interaction.reply(data.text);
                 })
             }
         }
     },
-    async msg(client, message, args, extras) {
-        let cmd = args[1].toLowerCase();
 
-        switch (cmd) {
-            case 'bday':
-                fun.birthday(apiversion, apikey, 'english').then(data => {
-                    const embed = new MessageEmbed();
-                    embed.setDescription(data.text);
-                    embed.setImage(data.url);
-                    embed.setColor("RANDOM");
 
-                    message.reply({ embeds: [embed] })
-                })
-                break;
-            case "nekoparaimg":
-                images.nekopara(apiversion, apikey).then(data => {
-                    let embed2 = new MessageEmbed().setImage(data.url).setColor("RANDOM");
-
-                    message.reply({ embeds: [embed2] })
-                })
-                break;
-        }
-    }
 }

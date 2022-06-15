@@ -7,7 +7,7 @@ module.exports = {
      * @param {Message} message 
      * @param {Client} client 
      */
-    async run(message, client) {
+    async run(message, client, apiclient) {
         if (message.author.bot) return;
 
         let prefix = 'c.';
@@ -26,7 +26,7 @@ module.exports = {
             prefix
         }
         if (command.command === "true") return;
-        if (command.command === "both") command.both(client, message, args, null, extras, "msg");
-        else command.msg(client, message, args, extras)
+        if (command.command === "both") command.both(client, message, args, null, extras, "msg", apiclient);
+        else command.msg(client, message, args, extras, apiclient)
     }
 }
